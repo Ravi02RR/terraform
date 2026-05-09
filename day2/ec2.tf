@@ -46,16 +46,17 @@ resource "aws_security_group" "instance_sg" {
 
 #ec2 instance
 resource "aws_instance" "example" {
-  ami             = "ami-0d13e2317a7e75c95"
+  ami             = var.ec2_ami_id
   key_name        = aws_key_pair.deployer.key_name
   security_groups = [aws_security_group.instance_sg.name]
-instance_type = "t3.micro"
+  instance_type   = var.ec2_instance_type
   tags = {
-    Name = "HelloWorld"
+    Name = var.ec2_name
   }
 
   root_block_device {
     volume_type = "gp3"
+    volume_size = var.ec2_root_storage_size
 
   }
 }
